@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тестовая форма для amoCRM</title>
+</head>
+<body>
+    <h1>Тестовая форма</h1>
+    
+    <form id="myForm">
+        <input type="text" name="name" placeholder="Ваше имя" required><br><br>
+        <input type="email" name="email" placeholder="Ваш email" required><br><br>
+        <input type="tel" name="phone" placeholder="Ваш телефон"><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Здесь нужно вставить ваш вебхук от amoCRM
+            const WEBHOOK_URL = 'https://ваш_домен.amocrm.ru/...';
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                document.getElementById('result').innerHTML = "Данные отправлены!";
+                console.log('Успех:', response);
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = "Ошибка отправки";
+                console.error('Ошибка:', error);
+            });
+        });
+    </script>
+</body>
+</html>
